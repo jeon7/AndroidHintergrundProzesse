@@ -1,6 +1,5 @@
-package ch.teko.hintergrundprozesse;
-import android.content.Intent;
-import android.net.Uri;
+package ch.teko.hintergrundprozesse.json;
+
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,48 +10,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.Thread;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class ConnectThread extends Thread {
-    private static final String LOG_TAG = "ConnectThread";
-    private String urlStr;
+public class Functions {
+    private static final String LOG_TAG = "json.Functions";
 
-    public ConnectThread(String urlStr) {
-        Log.d(LOG_TAG, "new ConnectThread Object created");
-        this.urlStr = urlStr;
+    public static ArrayList<Transport> parseJsonFromUrl(String urlStr) {
+        return parseJson(getJson(urlStr));
     }
 
-    @Override
-    public void run() {
-        String jsonStr = getJson(urlStr);
-        ArrayList<Transport> transportList = parseJson(jsonStr);
-
-//        todo: test
-        for(int i = 0; i < transportList.size(); i++) {
-            Log.d(LOG_TAG, transportList.get(i).getId());
-            Log.d(LOG_TAG, transportList.get(i).getName());
-            Log.d(LOG_TAG, transportList.get(i).getScore());
-            Log.d(LOG_TAG, transportList.get(i).getCoordinate_type());
-            Log.d(LOG_TAG, transportList.get(i).getCoordinate_x());
-            Log.d(LOG_TAG, transportList.get(i).getCoordinate_y());
-            Log.d(LOG_TAG, transportList.get(i).getDistance());
-            Log.d(LOG_TAG, transportList.get(i).getIcon());
-            Log.d(LOG_TAG, " ");
-        }
-
-//todo test
-//        Uri geouri = Uri.parse("geo:" + transportList.get(0).getCoordinate_x() + transportList.get(0).getCoordinate_y());
-//        Intent geomap = new Intent(Intent.ACTION_VIEW, geouri);
-//        geomap.setPackage("com.google.android.apps.maps");
-
-        //        todo
-//        Log.d(LOG_TAG, "jsonStr = " + jsonStr);
-    }
-
-    private String getJson(String urlStr) {
+    private static String getJson(String urlStr) {
         String jsonStr = null;
         try{
             //      todo, if user input is not for transportAPI
@@ -81,8 +50,8 @@ public class ConnectThread extends Thread {
         return jsonStr;
     }
 
-    private ArrayList<Transport> parseJson(String jsonStr) {
-        ArrayList<Transport> transportList = new ArrayList<Transport>();
+    private static ArrayList<Transport> parseJson(String jsonStr) {
+        ArrayList<Transport> transportList = new ArrayList();
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONArray jsonArray = jsonObject.getJSONArray("stations");

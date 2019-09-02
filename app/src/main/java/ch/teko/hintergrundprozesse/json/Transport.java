@@ -1,7 +1,7 @@
-package ch.teko.hintergrundprozesse;
+package ch.teko.hintergrundprozesse.json;
 
 
-class Transport {
+public class Transport {
     private String id;
     private String name;
     private String score;
