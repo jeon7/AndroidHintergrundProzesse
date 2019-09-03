@@ -50,12 +50,6 @@ public class MyService extends Service {
         locationUserInput = intent.getExtras().getString("locationUserInput");
         getTransportTable(locationUserInput);
 
-        //todo test
-//        Uri geouri = Uri.parse("geo:" + transportList.get(0).getCoordinate_x() + transportList.get(0).getCoordinate_y());
-//        Intent geomap = new Intent(Intent.ACTION_VIEW, geouri);
-//        geomap.setPackage("com.google.android.apps.maps");
-
-
         return myBinder;
     }
 
